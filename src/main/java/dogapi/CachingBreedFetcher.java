@@ -15,14 +15,22 @@ import java.util.*;
 public class CachingBreedFetcher implements BreedFetcher {
     // TODO Task 2: Complete this class
     private int callsMade = 0;
+    private final BreedFetcher breedFetcher;
+    private List<String> breeds;
     public CachingBreedFetcher(BreedFetcher fetcher) {
-
+        breedFetcher = fetcher;
     }
 
     @Override
     public List<String> getSubBreeds(String breed) {
         // return statement included so that the starter code can compile and run.
-        return new ArrayList<>();
+
+        if (breeds == null) {
+            callsMade++;
+            breeds = breedFetcher.getSubBreeds(breed);
+        }
+
+        return breeds;
     }
 
     public int getCallsMade() {
